@@ -10,11 +10,12 @@ struct sum_runner_struct {
 // Thread function to generate sum of 0 to N
 void* sum_runner(void* arg)
 {
+    long i;
 	struct sum_runner_struct *arg_struct =
 			(struct sum_runner_struct*) arg;
 
 	long long sum = 0;
-	for (long long i = 0; i <= arg_struct->limit; i++) {
+	for ( i = 0; i <= arg_struct->limit; i++) {
 		sum += i;
 	}
 
@@ -25,6 +26,7 @@ void* sum_runner(void* arg)
 
 int main(int argc, char **argv)
 {
+    int i;
 	if (argc < 2) {
 		printf("Usage: %s <num 1> <num 2> ... <num-n>\n", argv[0]);
 		exit(-1);
@@ -35,7 +37,7 @@ int main(int argc, char **argv)
 
 	// Launch thread
 	pthread_t tids[num_args];
-	for (int i = 0; i < num_args; i++) {
+	for (i = 0; i < num_args; i++) {
 		args[i].limit = atoll(argv[i + 1]);
 
 		pthread_attr_t attr;
@@ -44,7 +46,7 @@ int main(int argc, char **argv)
 	}
 
 	// Wait until thread is done its work
-	for (int i = 0; i < num_args; i++) {
+	for (i = 0; i < num_args; i++) {
 		pthread_join(tids[i], NULL);
 		printf("Sum for thread %d is %lld\n",
 				i, args[i].answer);
